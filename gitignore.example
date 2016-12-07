@@ -91,3 +91,6 @@ ENV/
 
 # local settings
 local_settings.py
+
+# sqlite3
+*.sqlite3

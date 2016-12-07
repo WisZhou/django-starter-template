@@ -1,0 +1,10 @@
+# web
+web:
+  image: django-starter:latest
+  command: python manage.py runserver 0.0.0.0:7070
+  volumes:
+    - .:/code
+  ports:
+    - "7070:7070"
+  environment:
+    - PYTHONPATH=/code
