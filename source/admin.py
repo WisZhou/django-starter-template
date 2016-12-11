@@ -2,7 +2,7 @@ import inspect
 
 from django.contrib import admin
 
-import models as app_models
+from . import models as app_models
 
 for attr in dir(app_models):
     model = getattr(app_models, attr)
