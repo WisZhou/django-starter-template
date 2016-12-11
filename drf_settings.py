@@ -5,6 +5,7 @@ INSTALLED_APPS += [
     'rest_framework',
     'rest_framework_jwt',
     'corsheaders',
+    'raven.contrib.django.raven_compat',
 ]
 
 # Django REST Framework settings

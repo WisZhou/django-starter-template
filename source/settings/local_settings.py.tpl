@@ -13,4 +13,4 @@ DATABASES = {
     }
 }
 
-RAVEN = {}
+RAVEN_CONFIG = {}
