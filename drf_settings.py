@@ -1,5 +1,7 @@
 import datetime
 
+MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
+
 # django restframework app
 INSTALLED_APPS += [
     'rest_framework',
