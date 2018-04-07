@@ -51,7 +51,6 @@ coverage.xml
 
 # Django stuff:
 *.log
-local_settings.py
 
 # Flask stuff:
 instance/
@@ -89,8 +88,20 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# local settings
+# local
 local_settings.py
+local_config.py
 
 # sqlite3
 *.sqlite3
+
+# vim
+*.sw?
+
+backup
+/tmp/
+.#*
+cover/
+.DS_Store
+.idea/
+celerybeat.pid

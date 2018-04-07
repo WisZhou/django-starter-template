@@ -1,2 +1,2 @@
 -r base.txt
-flake8==2.6.2
+flake8<=3.0

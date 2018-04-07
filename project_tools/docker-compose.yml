@@ -1,10 +1,87 @@
-# web
-web:
-  image: django-starter:latest
-  command: python manage.py runserver 0.0.0.0:7070
-  volumes:
-    - .:/code
-  ports:
-    - "7070:7070"
-  environment:
-    - PYTHONPATH=/code
+version: "3"
+services:
+    # web
+    web:
+        image: {project}:latest
+        command: python manage.py runserver 0.0.0.0:8010
+        volumes:
+            - .:/code
+        ports:
+            - "8010:8010"
+        environment:
+            - PYTHONPATH=/code
+            - C_FORCE_ROOT=true
+            - ENV=dev
+        network_mode: bridge
+        external_links:
+            - product_mysql:mysql
+            - product_redis:redis
+
+    # test
+    test:
+        restart: always
+        image: {project}:latest
+        command: supervisord -c /code/deploy/test_supervisord.conf
+        volumes:
+            - .:/code
+            - /data/{project}:/data
+        ports:
+            - "8010:8010"
+        environment:
+            - PYTHONPATH=/code
+            - C_FORCE_ROOT=true
+            - ENV=test
+        network_mode: bridge
+        sysctls:
+            net.core.somaxconn: 16384
+        external_links:
+            - product_mysql:mysql
+            - product_redis:redis
+
+    # prod
+    prod:
+    restart: always
+    image: {project}:latest
+    command: supervisord -c /code/deploy/supervisord.conf
+    volumes:
+        - .:/code
+        - /data/{project}:/data
+    ports:
+        - "8010:8010"
+    environment:
+        - PYTHONPATH=/code
+        - ENV=pro
+    network_mode: bridge
+    sysctls:
+        net.core.somaxconn: 16384
+
+    # celery
+    celery_test:
+    restart: always
+    image: {project}:latest
+    command: supervisord -c /code/deploy/celery_supervisord.conf
+    volumes:
+        - .:/code
+        - /data/{project}:/data
+    environment:
+        - PYTHONPATH=/code
+        - C_FORCE_ROOT=true
+        - ENV=test
+    network_mode: bridge
+    external_links:
+        - product_mysql:mysql
+        - product_redis:redis
+
+    # celery
+    celery:
+    restart: always
+    image: {project}:latest
+    command: supervisord -c /code/deploy/celery_supervisord.conf
+    volumes:
+        - .:/code
+        - /data/{project}:/data
+    environment:
+        - PYTHONPATH=/code
+        - C_FORCE_ROOT=true
+        - ENV=pro
+    network_mode: bridge
