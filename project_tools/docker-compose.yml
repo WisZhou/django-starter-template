@@ -40,48 +40,48 @@ services:
 
     # prod
     prod:
-    restart: always
-    image: {project}:latest
-    command: supervisord -c /code/deploy/supervisord.conf
-    volumes:
-        - .:/code
-        - /data/{project}:/data
-    ports:
-        - "8010:8010"
-    environment:
-        - PYTHONPATH=/code
-        - ENV=pro
-    network_mode: bridge
-    sysctls:
-        net.core.somaxconn: 16384
+        restart: always
+        image: {project}:latest
+        command: supervisord -c /code/deploy/supervisord.conf
+        volumes:
+            - .:/code
+            - /data/{project}:/data
+        ports:
+            - "8010:8010"
+        environment:
+            - PYTHONPATH=/code
+            - ENV=pro
+        network_mode: bridge
+        sysctls:
+            net.core.somaxconn: 16384
 
     # celery
     celery_test:
-    restart: always
-    image: {project}:latest
-    command: supervisord -c /code/deploy/celery_supervisord.conf
-    volumes:
-        - .:/code
-        - /data/{project}:/data
-    environment:
-        - PYTHONPATH=/code
-        - C_FORCE_ROOT=true
-        - ENV=test
-    network_mode: bridge
-    external_links:
-        - product_mysql:mysql
-        - product_redis:redis
+        restart: always
+        image: {project}:latest
+        command: supervisord -c /code/deploy/celery_supervisord.conf
+        volumes:
+            - .:/code
+            - /data/{project}:/data
+        environment:
+            - PYTHONPATH=/code
+            - C_FORCE_ROOT=true
+            - ENV=test
+        network_mode: bridge
+        external_links:
+            - product_mysql:mysql
+            - product_redis:redis
 
     # celery
     celery:
-    restart: always
-    image: {project}:latest
-    command: supervisord -c /code/deploy/celery_supervisord.conf
-    volumes:
-        - .:/code
-        - /data/{project}:/data
-    environment:
-        - PYTHONPATH=/code
-        - C_FORCE_ROOT=true
-        - ENV=pro
-    network_mode: bridge
+        restart: always
+        image: {project}:latest
+        command: supervisord -c /code/deploy/celery_supervisord.conf
+        volumes:
+            - .:/code
+            - /data/{project}:/data
+        environment:
+            - PYTHONPATH=/code
+            - C_FORCE_ROOT=true
+            - ENV=pro
+        network_mode: bridge
