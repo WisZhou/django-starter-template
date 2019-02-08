@@ -11,7 +11,6 @@ from fabric.api import (
     env,
     task,
     execute,
-    shell_env,
 )
 
 PROD_MYSQL_HOST = ''
@@ -283,9 +282,21 @@ def mysql_backup():
 
 
 @task
-def runtest(coverage=False, reuse_db=0):
-    with shell_env(REUSE_DB='1' if reuse_db else '0'):
-        if coverage:
-            manage('test -n --nomigrations --xunit-file=/code/coverage/xunit_report.xml --cover-html-dir=/code/coverage/html')
-        else:
-            manage('test --nomigrations')
+def runtest(reuse_db=None, coverage=None, extra_args=''):
+    reuse_db = 1 if reuse_db else 0
+    if coverage:
+        extra_args = (
+            '--xunit-file=/code/coverage/xunit_report.xml '
+            '--cover-html-dir=/code/coverage/html '
+            + extra_args
+        )
+    cmd = 'docker-compose run --rm -e REUSE_DB=%d web python manage.py test -n --nomigrations %s'
+    local(cmd % (reuse_db, extra_args))
+
+
+@task
+def showmigrations(args=''):
+    '''
+    show migrations
+    '''
+    manage('%s %s' % ('showmigrations', args))
