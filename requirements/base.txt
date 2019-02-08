@@ -16,3 +16,4 @@ django-multi-captcha-admin
 django-recaptcha
 django-simple-captcha
 django-redis
+sentry-sdk==0.7.1
