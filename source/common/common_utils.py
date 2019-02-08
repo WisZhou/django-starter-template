@@ -6,7 +6,7 @@
 
 import logging
 
-from scloud.conf import config
+from ..conf import config
 
 
 def get_logger(name='utils', logfile=None):
