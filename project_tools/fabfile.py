@@ -62,9 +62,18 @@ def manage(cmd):
 @task
 def makemigrations(merge=None):
     '''
-    database migrate
+    make migrations
     '''
     cmd = 'makemigrations' if merge is None else 'makemigrations --merge'
+    manage(cmd)
+
+
+@task
+def make_data_migrations(app='qaa_robot'):
+    '''
+    make data migrations
+    '''
+    cmd = 'makemigrations %s --empty' % app
     manage(cmd)
 
 
